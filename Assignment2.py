@@ -1,89 +1,89 @@
-def automata_id(input_string):
-    state = 9
-    lexeme = ""
-    i = 0
-    
-    while i < len(input_string):
-        c = input_string[i]
+import sys
+import os
+
+class C:
+    RESET   = "\033[0m"
+    BOLD    = "\033[1m"
+    GREEN   = "\033[92m"
+    YELLOW  = "\033[93m"
+    RED     = "\033[91m"
+    CYAN    = "\033[96m"
+    MAGENTA = "\033[95m"
+    DIM     = "\033[2m"
+
+# LÓGICA DE AUTÓMATAS (Figura 3.14)
+
+def automata_then(cadena):
+    # Basado en la Fig. 3.14 (Estados 12-17)
+    # Añadimos un espacio para disparar la transición "otro" (Estado 17)
+    temp = cadena + " "
+    estado = 12
+    for c in temp:
+        if estado == 12:
+            if c == 't': estado = 13
+            else: return False
+        elif estado == 13:
+            if c == 'h': estado = 14
+            else: return False
+        elif estado == 14:
+            if c == 'e': estado = 15
+            else: return False
+        elif estado == 15:
+            if c == 'n': estado = 16
+            else: return False
+        elif estado == 16:
+            # Si lo que sigue NO es letra/número, acepta (Estado 17)
+            if not c.isalnum(): return True
+            else: return False
+    return False
+
+def automata_id(cadena):
+    temp = cadena + " "
+    estado = 9
+    for c in temp:
+        if estado == 9:
+            if c.isalpha(): estado = 10
+            else: return False
+        elif estado == 10:
+            # Si encuentra algo que no es letra o número, pasa al estado 11 (Aceptación)
+            if not c.isalnum(): return True
+    return False
+
+# FLUJO PRINCIPAL
+
+def main():
+    # Asegurar compatibilidad de colores en Windows
+    if sys.platform == "win32":
+        os.system('color')
+
+    print(f"""
+{C.BOLD}{C.MAGENTA}╔══════════════════════════════════════════════════════════╗
+║      Analizador Léxico — Lenguajes Formales, EAFIT 2026  ║
+║      Autómatas Finitos: Fig. 3.14 & 3.15, Dragon Book    ║
+╚══════════════════════════════════════════════════════════╝{C.RESET}""")
+
+    while True:
+        print(f"{C.BOLD}{'═' * 60}{C.RESET}")
+        try:
+            cadena = input(f"  {C.BOLD}Ingrese una palabra (o 'salir'): {C.RESET}").strip()
+        except EOFError:
+            break
+
+        if cadena.lower() == 'salir':
+            print(f"\n  {C.CYAN}Saliendo del programa...{C.RESET}")
+            break
         
-        if state == 9:
-            if c.isalpha():
-                state = 10
-                lexeme += c
-                i += 1
-            else:
-                return None
-                
-        elif state == 10:
-            if c.isalnum():
-                state = 10
-                lexeme += c
-                i += 1
-            else:
-                state = 11
-                
-        elif state == 11:
-            return ("obtenerToken()", "instalarID()")
+        if not cadena:
+            continue
 
-    if state == 10:
-        return ("obtenerToken()", "instalarID()")
-        
-    return None
+        # Evaluación con prioridad (Palabra Reservada > Identificador)
+        if automata_then(cadena):
+            print(f"\n  {C.GREEN}{C.BOLD}✔  PALABRA RESERVADA (then){C.RESET}")
+        elif automata_id(cadena):
+            print(f"\n  {C.YELLOW}{C.BOLD}✔  IDENTIFICADOR{C.RESET}")
+        else:
+            print(f"\n  {C.RED}{C.BOLD}✘  NO VÁLIDA{C.RESET}")
+        print("") # Espacio extra para que no se vea amontonado
 
-def automata_then(input_string):
-    state = 12
-    i = 0
-    
-    while i < len(input_string):
-        c = input_string[i]
-        
-        if state == 12:
-            if c == 't': 
-                state = 13
-                i += 1
-            else: 
-                return None
-                
-        elif state == 13:
-            if c == 'h': 
-                state = 14
-                i += 1
-            else: 
-                return None
-                
-        elif state == 14:
-            if c == 'e': 
-                state = 15
-                i += 1
-            else: 
-                return None
-                
-        elif state == 15:
-            if c == 'n': 
-                state = 16
-                i += 1
-            else: 
-                return None
-                
-        elif state == 16:
-            if not c.isalnum(): 
-                state = 17
-            else: 
-                return None
-                
-        elif state == 17:
-            return True
-
-    if state == 16:
-        return True
-        
-    return None
-
-if __name__ == '__main__':
-    print("Testing ID Automaton (States 9-11):")
-    print(f"Input 'variable1 ' -> {automata_id('variable1 ')}")
-    print(f"Input '9bad' -> {automata_id('9bad')}\n")
-
-    print("Testing 'then' Keyword Automaton (States 12-17):")
-    print(f"Input 'then ' -> {automata_then('then ')}")
-    print(f"Input 'then1' -> {automata_then('then1')}")
+if __name__ == "__main__":
+    main()
