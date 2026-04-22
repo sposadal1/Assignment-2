@@ -45,8 +45,8 @@ Since "then" could also be interpreted as a valid identifier, the program implem
 ## How to Run the Program
 
 1. Ensure you have **Python** installed on your Windows machine. You can check this by running `python --version` in your terminal.
-2. Download the source file: `Assignment.py`.
+2. Download the source file: `Assignment2.py`.
 3. Open **PowerShell** or **Command Prompt** in the folder where the file is located.
 4. Run the script using the following command:
    ```bash
-   python Assignment.py
+   python Assignment2.py
