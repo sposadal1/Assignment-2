@@ -16,7 +16,7 @@ The program evaluates user-input strings through two Finite Automata (FA):
 ---
 
 ## Logistics and Requirements
-* **Operating System:** Windows 10 / Windows 11.
+* **Operating System:** Windows 11.
 * **Programming Language:** Python 3.10 or higher.
 * **Tools Used:** * VS Code (Code Editor).
     * Windows PowerShell / CMD (Execution environment).
@@ -50,3 +50,5 @@ Since "then" could also be interpreted as a valid identifier, the program implem
 4. Run the script using the following command:
    ```bash
    python Assignment2.py
+
+## Video Link: https://youtu.be/lSnRTGb13Vw?si=mwS7-KFlunDSxyyU
